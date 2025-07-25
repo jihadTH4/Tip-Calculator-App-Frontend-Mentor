@@ -58,10 +58,12 @@ export default function Calculator() {
         <img className="mx-auto my-10 md:py-0 md:my-32" src={Logo} alt="Logo" />
         {/* Calculator Container */}
         <div className="flex flex-col md:flex-row md:gap-12 items-center justify-center bg-white w-screen md:max-w-4xl h-fit md:h-[475px] p-8 rounded-3xl">
-          <div className="md:max-w-4xl md:ml-4 md:mt-4">
+          <div className="md:max-w-4xl md:ml-4 md:mt-4" role="main">
             <form onSubmit={handleSubmit}>
               <div className="flex justify-between items-center">
-                <label className="mb-4">Bill</label>
+                <label htmlFor="bill" className="mb-4">
+                  Bill
+                </label>
                 {bill === 0 && (
                   <label className="!text-red-500 !transition-opacity !duration-200">
                     Can't be zero
@@ -75,11 +77,14 @@ export default function Calculator() {
                   className="absolute left-4 top-1/2 transform -translate-y-1/2"
                 />
                 <input
+                  id="bill"
                   className={`w-full text-dark bg-grey-50 py-2 px-4 text-right rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
                     bill === 0 ? "outline-2 outline-red-500" : ""
                   }`}
                   type="number"
                   placeholder="0"
+                  aria-label="Bill amount"
+                  aria-invalid={bill === 0}
                   min="0"
                   step="any"
                   value={bill || ""}
@@ -93,8 +98,12 @@ export default function Calculator() {
             </form>
 
             <form onSubmit={handleSubmit}>
-              <label>Select Tip %</label>
-              <div className="grid grid-cols-2 gap-4 mt-2 md:grid-cols-3">
+              <label id="tip-group-label">Select Tip %</label>
+              <div
+                className="grid grid-cols-2 gap-4 mt-2 md:grid-cols-3"
+                role="group"
+                aria-labelledby="tip-group-label"
+              >
                 {TIP_PERCENTAGES.map((percentage) => (
                   <button
                     key={`tip-${percentage}`}
@@ -119,6 +128,7 @@ export default function Calculator() {
                   type="number"
                   placeholder="Custom"
                   value={customTip || ""}
+                  aria-label="Custom tip percentage"
                   onChange={(e) => {
                     const value =
                       e.target.value === "" ? null : Number(e.target.value);
@@ -135,11 +145,14 @@ export default function Calculator() {
             </form>
             <form>
               <div className="flex justify-between items-center">
-                <label>Number of People</label>
+                <label htmlFor="people">Number of People</label>
                 {numOfPeople === 0 && (
-                  <label className="!text-red-500 !transition-opacity !duration-200">
+                  <div
+                    className="!text-red-500 !transition-opacity !duration-200"
+                    role="alert"
+                  >
                     Can't be zero
-                  </label>
+                  </div>
                 )}
               </div>
               <div className="relative">
@@ -149,11 +162,14 @@ export default function Calculator() {
                   className="absolute left-4 top-1/2 transform -translate-y-1/2"
                 />
                 <input
+                  id="people"
                   className={`w-full text-dark bg-grey-50 py-2 px-4 text-right rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
                     numOfPeople === 0 ? "outline-2 outline-red-500" : ""
                   }`}
                   type="number"
                   placeholder="0"
+                  aria-label="Number of people"
+                  aria-invalid={numOfPeople === 0}
                   min="0"
                   step="any"
                   value={numOfPeople || ""}
